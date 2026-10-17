@@ -10,17 +10,31 @@
 
     <table>
         <thead>
-            <tr><th>Place</th><th>Team</th><th>Games</th><th>W</th><th>D</th><th>L</th><th>Goals</th><th>Points</th></tr>
+            <tr><th>Place</th><th>Team</th><th>Games</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>Points</th></tr>
         </thead>
-        <tbody>
-            <tr><td>1</td><td>Apple</td><td>10</td><td>8</td><td>2</td><td>0</td><td>25-10</td><td>24</td></tr>
-            <tr><td>1</td><td>Banana</td><td>10</td><td>8</td><td>2</td><td>0</td><td>25-10</td><td>24</td></tr>
-            <tr><td>1</td><td>Cherry</td><td>10</td><td>8</td><td>2</td><td>0</td><td>25-10</td><td>24</td></tr>
-            <tr><td>1</td><td>Orange</td><td>10</td><td>8</td><td>2</td><td>0</td><td>25-10</td><td>24</td></tr>
-
-        </tbody>
+        <tbody id = "standingTable"></tbody>
     </table>
-    
+
+    <script>
+        const standingTable = document.getElementById("standingTable");
+
+        const standing = [
+        { name: "Enjabs",  games: 10, w: 8, d: 2, l: 0, gf: 25, ga: 10, points: 24 },
+        { name: "WK", games: 10, w: 8, d: 2, l: 0, gf: 25, ga: 10, points: 24 },
+        { name: "Usuthu", games: 10, w: 8, d: 2, l: 0, gf: 25, ga: 10, points: 24 },
+        { name: "Lusundvu", games: 10, w: 8, d: 2, l: 0, gf: 25, ga: 10, points: 24 }
+        ];
+
+        let rows = "";
+        standing.forEach((team, index) => {
+            rows += `<tr><td>${index + 1}</td><td>${team.name}</td><td>${team.games}</td><td>${team.w}</td><td>${team.d}</td><td>${team.l}</td><td>${team.gf}</td><td>${team.ga}</td><td>${team.points}</td></tr>`;
+        });
+        standingTable.innerHTML = rows;
+
+
+
+        console.log(rows);
+    </script>
 </body>
 </html>
 
