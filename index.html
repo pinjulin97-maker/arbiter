@@ -24,15 +24,23 @@
 
         const standing = [
         { name: "Enjabs", w: 5, d: 2, l: 0, gf: 10, ga: 10 },
-        { name: "WK", w: 8, d: 2, l: 2, gf: 5, ga: 2 },
+        { name: "WK", w: 8, d: 4, l: 2, gf: 5, ga: 2 },
         { name: "Usuthu", w: 1, d: 2, l: 0, gf: 5, ga: 10 },
         { name: "Lusundvu", w: 8, d: 4, l: 0, gf: 7, ga: 4 }
         ];
 
         let rows = "";
+
+        standing.sort((a, b) => 
+            points(b) - points(a)
+            || goalDifference(b) - goalDifference(a)
+            || b.gf - a.gf
+        );
+
         standing.forEach((team, index) => {
             rows += `<tr><td>${index + 1}</td><td>${team.name}</td><td>${games(team)}</td><td>${team.w}</td><td>${team.d}</td><td>${team.l}</td><td>${team.gf}</td><td>${team.ga}</td><td>${goalDifference(team)}</td><td>${points(team)}</td></tr>`;
         });
+
         standingTable.innerHTML = rows;
 
     </script>
