@@ -22,12 +22,46 @@
         function points(team) {return (team.w * 3) + team.d;}
         function goalDifference(team) {return team.gf - team.ga;}
 
-        const standing = [
-        { name: "Enjabs", w: 5, d: 2, l: 0, gf: 10, ga: 10 },
-        { name: "WK", w: 8, d: 4, l: 2, gf: 5, ga: 2 },
-        { name: "Usuthu", w: 1, d: 2, l: 0, gf: 5, ga: 10 },
-        { name: "Lusundvu", w: 8, d: 4, l: 0, gf: 7, ga: 4 }
-        ];
+        const teams = ["Enjabs", "WK", "Usuthu", "Lusundvu"];
+
+        const matches = [
+            {home: "Enjabs", away:"WK", homeGoals: 2, awayGoals: 1},
+            {home: "Usuthu", away:"Lusundvu", homeGoals: 1, awayGoals: 2},
+            {home: "WK", away:"Usuthu", homeGoals: 3, awayGoals: 0},
+            {home: "Lusundvu", away:"Enjabs", homeGoals: 1, awayGoals: 1},
+            {home: "Enjabs", away:"Usuthu", homeGoals: 2, awayGoals: 2},
+            {home: "WK", away:"Lusundvu", homeGoals: 0, awayGoals: 1},
+        ]
+
+        console.log(matches);
+
+        const table = {};
+        teams.forEach(team => {
+            table[team] = {name: team, w: 0, d: 0, l: 0, gf: 0, ga: 0 };
+        });
+
+        matches.forEach(match => {
+            const home = table[match.home];
+            const away = table[match.away];
+
+            home.gf += match.homeGoals;
+            home.ga += match.awayGoals;
+            away.gf += match.awayGoals;
+            away.ga += match.homeGoals;
+
+            if (match.homeGoals > match.awayGoals) {
+                home.w++;
+                away.l++;
+            } else if (match.homeGoals < match.awayGoals) {
+                home.l++;
+                away.w++;
+            } else {
+                home.d++;
+                away.d++;
+            }
+        });
+
+        const standing = Object.values(table);
 
         let rows = "";
 
