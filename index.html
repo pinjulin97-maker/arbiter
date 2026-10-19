@@ -8,6 +8,15 @@
 <body>
     <h1>Tournament Standing</h1>
 
+    <div class="add-match">
+        <select id="homeSelect"></select>
+        <input type="number" id="homeGoals" min="0" value="0">
+        <span>vs</span>
+        <input type="number" id="awayGoals" min="0" value="0">
+        <select id="awaySelect"></select>
+        <button id="addMatch">Add match</button>
+    </div>
+    
     <table>
         <thead>
             <tr><th>Place</th><th>Team</th><th>Games</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Points</th></tr>
@@ -33,51 +42,82 @@
             {home: "WK", away:"Lusundvu", homeGoals: 0, awayGoals: 1},
         ]
 
-        console.log(matches);
-
-        const table = {};
+        const homeSelect = document.getElementById("homeSelect");
+        const awaySelect = document.getElementById("awaySelect");
+        homeSelect.innerHTML = "";
+        awaySelect.innerHTML = "";
         teams.forEach(team => {
-            table[team] = {name: team, w: 0, d: 0, l: 0, gf: 0, ga: 0 };
+            homeSelect.innerHTML += `<option value="${team}">${team}</option>`;
+            awaySelect.innerHTML += `<option value="${team}">${team}</option>`;
         });
 
-        matches.forEach(match => {
-            const home = table[match.home];
-            const away = table[match.away];
+        function render() {
 
-            home.gf += match.homeGoals;
-            home.ga += match.awayGoals;
-            away.gf += match.awayGoals;
-            away.ga += match.homeGoals;
+            const table = {};
+            teams.forEach(team => {
+                table[team] = {name: team, w: 0, d: 0, l: 0, gf: 0, ga: 0 };
+            });
 
-            if (match.homeGoals > match.awayGoals) {
-                home.w++;
-                away.l++;
-            } else if (match.homeGoals < match.awayGoals) {
-                home.l++;
-                away.w++;
-            } else {
-                home.d++;
-                away.d++;
+            matches.forEach(match => {
+                const home = table[match.home];
+                const away = table[match.away];
+
+                home.gf += match.homeGoals;
+                home.ga += match.awayGoals;
+                away.gf += match.awayGoals;
+                away.ga += match.homeGoals;
+
+                if (match.homeGoals > match.awayGoals) {
+                    home.w++;
+                    away.l++;
+                } else if (match.homeGoals < match.awayGoals) {
+                    home.l++;
+                    away.w++;
+                } else {
+                    home.d++;
+                    away.d++;
+                }
+            });
+
+            const standing = Object.values(table);
+
+            let rows = "";
+
+            standing.sort((a, b) => 
+                points(b) - points(a)
+                || goalDifference(b) - goalDifference(a)
+                || b.gf - a.gf
+            );
+
+            standing.forEach((team, index) => {
+                rows += `<tr><td>${index + 1}</td><td>${team.name}</td><td>${games(team)}</td><td>${team.w}</td><td>${team.d}</td><td>${team.l}</td><td>${team.gf}</td><td>${team.ga}</td><td>${goalDifference(team)}</td><td>${points(team)}</td></tr>`;
+            });
+
+            standingTable.innerHTML = rows;
+
+        }
+
+        const addButton = document.getElementById("addMatch");
+
+        addButton.addEventListener("click", () => {
+            const homeTeam = homeSelect.value;
+            const awayTeam = awaySelect.value;
+            const homeGoals = parseInt(document.getElementById("homeGoals").value);
+            const awayGoals = parseInt(document.getElementById("awayGoals").value);
+
+            if (homeTeam === awayTeam) {
+                alert("Home and Away teams must be different.");
+                return;
             }
+
+            matches.push({home: homeTeam, away: awayTeam, homeGoals, awayGoals});
+
+            render();
         });
 
-        const standing = Object.values(table);
+        render();
 
-        let rows = "";
-
-        standing.sort((a, b) => 
-            points(b) - points(a)
-            || goalDifference(b) - goalDifference(a)
-            || b.gf - a.gf
-        );
-
-        standing.forEach((team, index) => {
-            rows += `<tr><td>${index + 1}</td><td>${team.name}</td><td>${games(team)}</td><td>${team.w}</td><td>${team.d}</td><td>${team.l}</td><td>${team.gf}</td><td>${team.ga}</td><td>${goalDifference(team)}</td><td>${points(team)}</td></tr>`;
-        });
-
-        standingTable.innerHTML = rows;
-
+        
     </script>
 </body>
 </html>
-
