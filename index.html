@@ -105,6 +105,11 @@
             const homeGoals = parseInt(document.getElementById("homeGoals").value);
             const awayGoals = parseInt(document.getElementById("awayGoals").value);
 
+            if (isNaN(homeGoals) || isNaN(awayGoals) || homeGoals < 0 || awayGoals < 0) {
+                alert("Please enter valid non-negative goal numbers.");
+                return;
+            }
+            
             if (homeTeam === awayTeam) {
                 alert("Home and Away teams must be different.");
                 return;
