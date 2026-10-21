@@ -30,17 +30,12 @@
         function games(team) {return team.w + team.d + team.l;}
         function points(team) {return (team.w * 3) + team.d;}
         function goalDifference(team) {return team.gf - team.ga;}
+        function save() {localStorage.setItem("matches", JSON.stringify(matches));}
+        function load() {return JSON.parse(localStorage.getItem("matches")) || [];}
 
         const teams = ["Enjabs", "WK", "Usuthu", "Lusundvu"];
 
-        const matches = [
-            {home: "Enjabs", away:"WK", homeGoals: 2, awayGoals: 1},
-            {home: "Usuthu", away:"Lusundvu", homeGoals: 1, awayGoals: 2},
-            {home: "WK", away:"Usuthu", homeGoals: 3, awayGoals: 0},
-            {home: "Lusundvu", away:"Enjabs", homeGoals: 1, awayGoals: 1},
-            {home: "Enjabs", away:"Usuthu", homeGoals: 2, awayGoals: 2},
-            {home: "WK", away:"Lusundvu", homeGoals: 0, awayGoals: 1},
-        ]
+        let matches = load();
 
         const homeSelect = document.getElementById("homeSelect");
         const awaySelect = document.getElementById("awaySelect");
@@ -49,6 +44,32 @@
         teams.forEach(team => {
             homeSelect.innerHTML += `<option value="${team}">${team}</option>`;
             awaySelect.innerHTML += `<option value="${team}">${team}</option>`;
+        });
+        
+        render();
+
+        const addButton = document.getElementById("addMatch");
+
+        addButton.addEventListener("click", () => {
+            const homeTeam = homeSelect.value;
+            const awayTeam = awaySelect.value;
+            const homeGoals = parseInt(document.getElementById("homeGoals").value);
+            const awayGoals = parseInt(document.getElementById("awayGoals").value);
+
+            if (isNaN(homeGoals) || isNaN(awayGoals) || homeGoals < 0 || awayGoals < 0) {
+                alert("Please enter valid non-negative goal numbers.");
+                return;
+            }
+
+            if (homeTeam === awayTeam) {
+                alert("Home and Away teams must be different.");
+                return;
+            }
+
+            matches.push({home: homeTeam, away: awayTeam, homeGoals, awayGoals});
+
+            save();
+            render();
         });
 
         function render() {
@@ -96,32 +117,6 @@
             standingTable.innerHTML = rows;
 
         }
-
-        const addButton = document.getElementById("addMatch");
-
-        addButton.addEventListener("click", () => {
-            const homeTeam = homeSelect.value;
-            const awayTeam = awaySelect.value;
-            const homeGoals = parseInt(document.getElementById("homeGoals").value);
-            const awayGoals = parseInt(document.getElementById("awayGoals").value);
-
-            if (isNaN(homeGoals) || isNaN(awayGoals) || homeGoals < 0 || awayGoals < 0) {
-                alert("Please enter valid non-negative goal numbers.");
-                return;
-            }
-            
-            if (homeTeam === awayTeam) {
-                alert("Home and Away teams must be different.");
-                return;
-            }
-
-            matches.push({home: homeTeam, away: awayTeam, homeGoals, awayGoals});
-
-            render();
-        });
-
-        render();
-
         
     </script>
 </body>
