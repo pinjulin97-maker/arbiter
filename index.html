@@ -29,6 +29,10 @@
         <tbody id = "standingTable"></tbody>
     </table>
 
+    <div class="clear">
+        <button id="clearMatches">Clear Matches</button>
+    </div>
+
     <script>
         const standingTable = document.getElementById("standingTable");
 
@@ -53,9 +57,16 @@
                 awaySelect.innerHTML += `<option value="${team}">${team}</option>`;
             });
         }
+        
         fillDropdowns();
-
         render();
+
+        const clearMatches = document.getElementById("clearMatches");
+        clearMatches.addEventListener("click", () => {
+            matches = [];
+            save();
+            render();
+        });
 
         const addTeam = document.getElementById("addTeam");
         addTeam.addEventListener("click", () => {
