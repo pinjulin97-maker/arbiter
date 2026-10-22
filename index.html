@@ -31,20 +31,23 @@
 
     <div class="clear">
         <button id="clearMatches">Clear Matches</button>
+        <button id="clearTeams">Clear Teams</button>
+        <button id="reset">Reset</button>
     </div>
 
     <script>
-        const standingTable = document.getElementById("standingTable");
-
         function games(team) {return team.w + team.d + team.l;}
         function points(team) {return (team.w * 3) + team.d;}
         function goalDifference(team) {return team.gf - team.ga;}
-        function save() {localStorage.setItem("matches", JSON.stringify(matches));}
-        function load() {return JSON.parse(localStorage.getItem("matches")) || [];}
+        function saveMatches() {localStorage.setItem("matches", JSON.stringify(matches));}
+        function loadMatches() {return JSON.parse(localStorage.getItem("matches")) || [];}
+        function saveTeams() {localStorage.setItem("teams", JSON.stringify(teams));}
+        function loadTeams() {return JSON.parse(localStorage.getItem("teams")) || ["Enjabs", "WK", "Usuthu", "Lusundvu"];}
 
-        const teams = ["Enjabs", "WK", "Usuthu", "Lusundvu"];
+        let teams = loadTeams();
+        let matches = loadMatches();
 
-        let matches = load();
+        const standingTable = document.getElementById("standingTable");
 
         const homeSelect = document.getElementById("homeSelect");
         const awaySelect = document.getElementById("awaySelect");
@@ -57,14 +60,34 @@
                 awaySelect.innerHTML += `<option value="${team}">${team}</option>`;
             });
         }
-        
+
         fillDropdowns();
         render();
 
         const clearMatches = document.getElementById("clearMatches");
         clearMatches.addEventListener("click", () => {
             matches = [];
-            save();
+            saveMatches();
+            render();
+        });
+
+        const clearTeams = document.getElementById("clearTeams");
+        clearTeams.addEventListener("click", () => {
+            teams = [];
+            matches = [];
+            saveTeams();
+            saveMatches();
+            fillDropdowns();
+            render();
+        });
+
+        const reset = document.getElementById("reset");
+        reset.addEventListener("click", () => {
+            teams = [];
+            matches = [];
+            saveTeams();
+            saveMatches();
+            fillDropdowns();
             render();
         });
 
@@ -79,6 +102,7 @@
                 alert("Please enter a valid and unique team name.");
             }
             render()
+            saveTeams();
         });
 
         const addMatch = document.getElementById("addMatch");
@@ -100,7 +124,7 @@
 
             matches.push({home: homeTeam, away: awayTeam, homeGoals, awayGoals});
 
-            save();
+            saveMatches();
             render();
         });
 
