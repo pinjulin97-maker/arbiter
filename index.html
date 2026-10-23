@@ -130,6 +130,11 @@
                 const home = table[match.home];
                 const away = table[match.away];
 
+                if (!home || !away) {
+                    console.error(`Match contains unknown team: ${match.home} vs ${match.away}`);
+                    return;
+                }
+
                 home.gf += match.homeGoals;
                 home.ga += match.awayGoals;
                 away.gf += match.awayGoals;
