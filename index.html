@@ -31,7 +31,6 @@
 
     <div class="clear">
         <button id="clearMatches">Clear Matches</button>
-        <button id="clearTeams">Clear Teams</button>
         <button id="reset">Reset</button>
     </div>
 
@@ -68,16 +67,6 @@
         clearMatches.addEventListener("click", () => {
             matches = [];
             saveMatches();
-            render();
-        });
-
-        const clearTeams = document.getElementById("clearTeams");
-        clearTeams.addEventListener("click", () => {
-            teams = [];
-            matches = [];
-            saveTeams();
-            saveMatches();
-            fillDropdowns();
             render();
         });
 
