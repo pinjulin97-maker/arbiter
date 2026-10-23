@@ -112,6 +112,8 @@
             }
 
             matches.push({home: homeTeam, away: awayTeam, homeGoals, awayGoals});
+            document.getElementById("homeGoals").value = "0";
+            document.getElementById("awayGoals").value = "0";
 
             saveMatches();
             render();
