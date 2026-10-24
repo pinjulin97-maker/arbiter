@@ -29,6 +29,13 @@
         <tbody id = "standingTable"></tbody>
     </table>
 
+    <table>
+        <thead>
+            <tr><th>Match</th><th>Home</th><th>Home_Goals</th><th>Away</th><th>Away_Goals</th></tr>
+        </thead>
+        <tbody id = "matchTable"></tbody>
+    </table>
+
     <div class="clear">
         <button id="clearMatches">Clear Matches</button>
         <button id="reset">Reset</button>
@@ -47,6 +54,7 @@
         let matches = loadMatches();
 
         const standingTable = document.getElementById("standingTable");
+        const matchTable = document.getElementById("matchTable");
 
         const homeSelect = document.getElementById("homeSelect");
         const awaySelect = document.getElementById("awaySelect");
@@ -167,6 +175,14 @@
             });
 
             standingTable.innerHTML = rows;
+
+            let matchRows = "";
+
+            matches.forEach((match, index) => {
+                matchRows += `<tr><td>${index + 1}</td><td>${match.home}</td><td>${match.homeGoals}</td><td>${match.away}</td><td>${match.awayGoals}</td></tr>`;
+            });
+
+            matchTable.innerHTML = matchRows;
 
         }
         
