@@ -31,7 +31,7 @@
 
     <table>
         <thead>
-            <tr><th>Match</th><th>Home</th><th>Home_Goals</th><th>Away</th><th>Away_Goals</th><th>Delete</th></tr>
+            <tr><th>Match</th><th>Home</th><th>Home_Goals</th><th>Away</th><th>Away_Goals</th></tr>
         </thead>
         <tbody id = "matchTable"></tbody>
     </table>
@@ -63,6 +63,17 @@
             matches.splice(i, 1);
             saveMatches();
             render();
+        }
+
+        function editMatch(i) {
+            const match = matches[i];
+
+            homeSelect.value = match.home;
+            awaySelect.value = match.away;
+            document.getElementById("homeGoals").value = match.homeGoals;
+            document.getElementById("awayGoals").value = match.awayGoals;
+
+            deleteMatch(i);
         }
 
         function fillDropdowns() {
@@ -185,7 +196,7 @@
             let matchRows = "";
 
             matches.forEach((match, index) => {
-                matchRows += `<tr><td>${index + 1}</td><td>${match.home}</td><td>${match.homeGoals}</td><td>${match.away}</td><td>${match.awayGoals}</td><td><button onclick="deleteMatch(${index})">Delete</button></td></tr>`;
+                matchRows += `<tr><td>${index + 1}</td><td>${match.home}</td><td>${match.homeGoals}</td><td>${match.away}</td><td>${match.awayGoals}</td><td><button onclick="deleteMatch(${index})">Delete</button></td><td><button onclick="editMatch(${index})">Edit</button></td></tr>`;
             });
 
             matchTable.innerHTML = matchRows;
