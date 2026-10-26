@@ -5,6 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tournament Standing</title>
 </head>
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fbfbfd;
+        color: #1d1d1f;
+    }
+
+    input, select {
+        font: inherit;
+        border: 1px solid #d2d2d7;
+        border-radius: 8px;
+        padding: 8px 10px;
+    }
+
+    button {
+        font: inherit;
+        border: none;
+        border-radius: 8px;
+        padding: 8px 14px;
+        background-color: #f0f0f2;
+        color: #1d1d1f;
+        cursor: pointer;
+    }
+
+    .primary {
+        background-color: #0071e3;
+        color: #ffffff;
+    }
+
+    button:hover {
+        background-color: #e3e3e6;
+    }
+    
+    .primary:hover {
+        background-color: #0077ed;
+    }
+
+    th, td {
+        border-bottom: 1px solid #e5e5e7;
+        padding: 12px;
+    }
+
+    table {
+        border-collapse: collapse;
+    }
+
+    .card {
+        background-color: #ffffff;
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+        margin-bottom: 24px;
+    }
+    
+</style>
 <body>
     <h1>Tournament Standing</h1>
 
@@ -14,7 +72,7 @@
         <span>vs</span>
         <input type="number" id="awayGoals" min="0" value="0">
         <select id="awaySelect"></select>
-        <button id="addMatch">Add match</button>
+        <button id="addMatch" class="primary">Add match</button>
     </div>
 
     <div class="add-team">
@@ -22,19 +80,23 @@
         <button id="addTeam">Add Team</button>
     </div>
     
-    <table>
-        <thead>
-            <tr><th>Place</th><th>Team</th><th>Games</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Points</th></tr>
-        </thead>
-        <tbody id = "standingTable"></tbody>
-    </table>
+    <div class="card">
+        <table>
+            <thead>
+                <tr><th>Place</th><th>Team</th><th>Games</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Points</th></tr>
+            </thead>
+            <tbody id = "standingTable"></tbody>
+        </table>
+    </div>
 
-    <table>
-        <thead>
-            <tr><th>Match</th><th>Home</th><th>Home_Goals</th><th>Away</th><th>Away_Goals</th></tr>
-        </thead>
-        <tbody id = "matchTable"></tbody>
-    </table>
+    <div class="card">
+        <table>
+            <thead>
+                <tr><th>Match</th><th>Home</th><th>Home_Goals</th><th>Away</th><th>Away_Goals</th></tr>
+            </thead>
+            <tbody id = "matchTable"></tbody>
+        </table>
+    </div>
 
     <div class="clear">
         <button id="clearMatches">Clear Matches</button>
