@@ -60,24 +60,41 @@
         padding: 24px;
         box-shadow: 0 1px 3px rgba(0,0,0,0.06);
         margin-bottom: 24px;
+        overflow-x: auto;
+    }
+
+    h1 {
+        font-size: 40px;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        margin-bottom: 24px;
+    }
+
+    @media (max-width: 600px) {
+        .add-match, .add-team {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
     }
     
 </style>
 <body>
     <h1>Tournament Standing</h1>
+    <div class="card">
+        <div class="add-match">
+            <select id="homeSelect"></select>
+            <input type="number" id="homeGoals" min="0" value="0">
+            <span>vs</span>
+            <input type="number" id="awayGoals" min="0" value="0">
+            <select id="awaySelect"></select>
+            <button id="addMatch" class="primary">Add match</button>
+        </div>
 
-    <div class="add-match">
-        <select id="homeSelect"></select>
-        <input type="number" id="homeGoals" min="0" value="0">
-        <span>vs</span>
-        <input type="number" id="awayGoals" min="0" value="0">
-        <select id="awaySelect"></select>
-        <button id="addMatch" class="primary">Add match</button>
-    </div>
-
-    <div class="add-team">
-        <input type="text" id="teamName" placeholder="Team Name">
-        <button id="addTeam">Add Team</button>
+        <div class="add-team">
+            <input type="text" id="teamName" placeholder="Team Name">
+            <button id="addTeam">Add Team</button>
+        </div>    
     </div>
     
     <div class="card">
