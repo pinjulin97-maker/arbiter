@@ -81,6 +81,7 @@
 </style>
 <body>
     <h1>Tournament Standing</h1>
+    <div class="tabs" id="groupTabs"></div>
     <div class="card">
         <div class="add-match">
             <select id="homeSelect"></select>
@@ -135,6 +136,8 @@
 
         function group() {return groups[current];}
 
+        const groupTabs = document.getElementById("groupTabs");
+
         const standingTable = document.getElementById("standingTable");
         const matchTable = document.getElementById("matchTable");
 
@@ -172,6 +175,7 @@
         }
 
         fillDropdowns();
+        renderTabs();
         render();
 
         const clearMatches = document.getElementById("clearMatches");
@@ -234,6 +238,25 @@
             saveGroups();
             render();
         });
+
+        function switchGroup(i) {
+            current = i;
+            fillDropdowns();
+            render();
+        }
+
+        function renderTabs() {
+            groupTabs.innerHTML = ""
+
+            groups.forEach((group, index) => {
+                const tab = document.createElement('button');
+                tab.innerHTML = group.name;
+                groupTabs.appendChild(tab);
+
+                tab.addEventListener("click", () => switchGroup(index));
+                
+            });
+        };
 
         function render() {
 
