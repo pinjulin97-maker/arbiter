@@ -124,13 +124,16 @@
         function games(team) {return team.w + team.d + team.l;}
         function points(team) {return (team.w * 3) + team.d;}
         function goalDifference(team) {return team.gf - team.ga;}
-        function saveMatches() {localStorage.setItem("matches", JSON.stringify(matches));}
-        function loadMatches() {return JSON.parse(localStorage.getItem("matches")) || [];}
-        function saveTeams() {localStorage.setItem("teams", JSON.stringify(teams));}
-        function loadTeams() {return JSON.parse(localStorage.getItem("teams")) || ["Enjabs", "WK", "Usuthu", "Lusundvu"];}
+        function saveGroups() {localStorage.setItem("groups", JSON.stringify(groups));}
+        function loadGroups() {return JSON.parse(localStorage.getItem("groups")) || [groupA, groupB];}
 
-        let teams = loadTeams();
-        let matches = loadMatches();
+        const groupA = {name: "Group A", teams:["Enjabs", "WK", "Usuthu", "Lusundvu"], matches: []}; //hard code
+        const groupB = {name: "Group B", teams:[], matches: []}; //hard code
+        let groups = loadGroups();
+
+        let current = 0;
+
+        function group() {return groups[current];}
 
         const standingTable = document.getElementById("standingTable");
         const matchTable = document.getElementById("matchTable");
@@ -139,12 +142,14 @@
         const awaySelect = document.getElementById("awaySelect");
 
         function deleteMatch(i){
+            const matches = group().matches;
             matches.splice(i, 1);
-            saveMatches();
+            saveGroups();
             render();
         }
 
         function editMatch(i) {
+            const matches = group().matches;
             const match = matches[i];
 
             homeSelect.value = match.home;
@@ -156,6 +161,8 @@
         }
 
         function fillDropdowns() {
+            const teams = group().teams;
+
             homeSelect.innerHTML = "";
             awaySelect.innerHTML = "";
             teams.forEach(team => {
@@ -169,23 +176,26 @@
 
         const clearMatches = document.getElementById("clearMatches");
         clearMatches.addEventListener("click", () => {
-            matches = [];
-            saveMatches();
+            const matches = group().matches;
+            matches.length = 0;
+            saveGroups();
             render();
         });
 
         const reset = document.getElementById("reset");
         reset.addEventListener("click", () => {
-            teams = [];
-            matches = [];
-            saveTeams();
-            saveMatches();
+            const teams = group().teams;
+            const matches = group().matches;
+            teams.length = 0;
+            matches.length = 0;
+            saveGroups();
             fillDropdowns();
             render();
         });
 
         const addTeam = document.getElementById("addTeam");
         addTeam.addEventListener("click", () => {
+            const teams = group().teams;
             const teamName = document.getElementById("teamName").value.trim();
             if (teamName && !teams.includes(teamName)) {
                 teams.push(teamName);
@@ -194,8 +204,9 @@
             } else {
                 alert("Please enter a valid and unique team name.");
             }
-            render()
-            saveTeams();
+
+            saveGroups();
+            render();
         });
 
         const addMatch = document.getElementById("addMatch");
@@ -204,6 +215,7 @@
             const awayTeam = awaySelect.value;
             const homeGoals = parseInt(document.getElementById("homeGoals").value);
             const awayGoals = parseInt(document.getElementById("awayGoals").value);
+            const matches = group().matches;
 
             if (isNaN(homeGoals) || isNaN(awayGoals) || homeGoals < 0 || awayGoals < 0) {
                 alert("Please enter valid non-negative goal numbers.");
@@ -219,11 +231,14 @@
             document.getElementById("homeGoals").value = "0";
             document.getElementById("awayGoals").value = "0";
 
-            saveMatches();
+            saveGroups();
             render();
         });
 
         function render() {
+
+            const teams = group().teams;
+            const matches = group().matches;
 
             const table = {};
             teams.forEach(team => {
