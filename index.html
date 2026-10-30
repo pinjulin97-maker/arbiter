@@ -63,6 +63,11 @@
         overflow-x: auto;
     }
 
+    .active {
+        background-color: #0071e3;
+        color: #ffffff;
+    }
+
     h1 {
         font-size: 40px;
         font-weight: 600;
@@ -243,6 +248,7 @@
             current = i;
             fillDropdowns();
             render();
+            renderTabs();
         }
 
         function renderTabs() {
@@ -252,6 +258,12 @@
                 const tab = document.createElement('button');
                 tab.innerHTML = group.name;
                 groupTabs.appendChild(tab);
+
+                if (index === current) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                };
 
                 tab.addEventListener("click", () => switchGroup(index));
                 
